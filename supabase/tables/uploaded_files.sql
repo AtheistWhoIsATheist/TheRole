@@ -1,0 +1,20 @@
+CREATE TABLE uploaded_files (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    filename TEXT NOT NULL,
+    original_filename TEXT NOT NULL,
+    file_type TEXT NOT NULL CHECK (file_type IN ('pdf',
+    'txt',
+    'md',
+    'docx')),
+    file_size BIGINT NOT NULL,
+    file_hash TEXT UNIQUE NOT NULL,
+    storage_path TEXT NOT NULL,
+    upload_status TEXT DEFAULT 'pending' CHECK (upload_status IN ('pending',
+    'processed',
+    'failed')),
+    uploaded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    processed_at TIMESTAMP WITH TIME ZONE,
+    metadata JSONB DEFAULT '{}',
+    user_id UUID,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
